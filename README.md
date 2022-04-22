@@ -13,13 +13,13 @@ We analyzed the stock data from 2017 and 2018 and were able to garner some infor
 
 Firstly, we focused on the 12 stocks provided by our client.  2017 and 2018 provided vastly different results.
 
-####2017
+###2017
 
 2017 provided us with an overall postive outlook for these 12 stocks, as all but one showed positive returns.  In fact, the "DQ" stock that our client was interested in showed a 199% return over the course of 2017.  Had we only analyzed the 2017 data, this stock (amongst others) would have been a strong buy, or at least in the coversation for recommendations.  Seeing as how our client wanted the best picture of the data we could feasibly present, we wanted to look at how "DQ" and the 12 other "green" stocks performed in 2018.
 
 <img width="242" alt="2017 Data" src="https://user-images.githubusercontent.com/6634774/164778987-472f5cdc-dcda-4a08-8a75-61174999e4c9.png">
 
-####2018
+###2018
 
 2018 provided us with very different stock performance outcomes.  In particular the "DQ" stock did not perform well, despite being traded more, the stock return was down 62.6%.  This stock was no longer a good buy for our client, and would not be a good reccommendation for his parents.  "ENPH" and "RUN" both showed strong trading volumes; as well as, postive returns for 2017 and 2018, so we could be cautiously optimistic with our client to reccommend these stocks to his parents.
 
