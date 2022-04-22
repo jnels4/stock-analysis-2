@@ -40,5 +40,29 @@ Refactored code ran with 2017 and 2018 data.
 *ReFactoring*
 
 To reFactor our code, we needed to think about scalability.  Our code worked great with a few thousand records, but what if there were 100,000 or even 1,000,000 or X records?
-
-To scale our code for larger datasets and reduce the runtime, we created an array to hold all of the information, this way we were not doing calculations in time for each index, but perindex using a nested for loop.  Due to the fact that we used mutliple arrays to hold all of our information, we coudld easily iterate through the array using a "tickerIndex", that would pull the correct information based on the assigned index for each tickers index.  Using this new method, we decreased our 2017 runtime by 8.4% and our 2018 runtime by 
+Our original code both calculated and wrote directly to our spreadsheet within one set of nested loops.  While this may *seem* efficient, it actually isn't.
+'''
+For i = 0 To 11
+        Worksheets(yearValue).Activate
+        ticker = tickers(i)
+    
+        
+        For j = rowStart To rowEnd
+        
+            If (Cells(j, 1).Value = ticker) Then
+                 totalVolume = totalVolume + Cells(j, 8).Value
+            End If
+        
+        'set starting price
+        
+            If (Cells(j, 1).Value = ticker And Cells(j - 1, 1).Value <> ticker) Then
+                startingPrice = Cells(j, 6).Value
+            End If
+        
+        'set ending price
+            If Cells(j, 1).Value = ticker And Cells(j + 1, 1).Value <> ticker Then
+                 endingPrice = Cells(j, 6).Value
+           End If
+        Next j
+'''
+To scale our code for larger datasets and reduce the runtime, we created an array to hold all of the information, this way we were not doing calculations in time for each index, but perindex using a nested for loop.  Due to the fact that we used mutliple arrays to hold all of our information, we could easily iterate through the array using a "tickerIndex", that would pull the correct information based on the assigned index for each tickers index.  Using this new method, we decreased our 2017 runtime by 8.4% and our 2018 runtime by 8.5%.  
