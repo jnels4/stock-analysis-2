@@ -30,6 +30,7 @@ Firstly, we focused on the 12 stocks provided by our client.  2017 and 2018 prov
 We provided our client with our first deliverable, an analysis of the 12 stocks requested for the years 2017 and 2018, and they were optimistic, but felt that they needed more information.  We agreed and suggested that we spend some time refactoring our analysis code to improve it's effciency and runtime.  We tested this on the same set of data and found that our code was indeed marginally faster.
 
 Original code ran with 2017 and 2018 data.
+
 <img width="258" alt="Original Code 2017" src="https://user-images.githubusercontent.com/6634774/164780740-7bb5007d-63e0-472a-b353-af217c6f81de.png">
 <img width="257" alt="Original Code 2018" src="https://user-images.githubusercontent.com/6634774/164780793-ded9bd7b-4102-43c3-ae0c-5ff44139056a.png">
 
