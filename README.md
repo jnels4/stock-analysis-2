@@ -37,3 +37,8 @@ Refactored code ran with 2017 and 2018 data.
 
 <img width="250" alt="Refactor 2017" src="https://user-images.githubusercontent.com/6634774/164780932-a53b41e3-0815-42d8-97ce-66a2514221df.png"><img width="253" alt="ReFactor 2018" src="https://user-images.githubusercontent.com/6634774/164780934-19fe3b7d-bfc9-439e-8481-ddc83488f84c.png">
 
+*ReFactoring*
+
+To reFactor our code, we needed to think about scalability.  Our code worked great with a few thousand records, but what if there were 100,000 or even 1,000,000 or X records?
+
+To scale our code for larger datasets and reduce the runtime, we created an array to hold all of the information, this way we were not doing calculations in time for each index, but perindex using a nested for loop.  Due to the fact that we used mutliple arrays to hold all of our information, we coudld easily iterate through the array using a "tickerIndex", that would pull the correct information based on the assigned index for each tickers index.  Using this new method, we decreased our 2017 runtime by 8.4% and our 2018 runtime by 
