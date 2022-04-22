@@ -40,29 +40,114 @@ Refactored code ran with 2017 and 2018 data.
 *ReFactoring*
 
 To reFactor our code, we needed to think about scalability.  Our code worked great with a few thousand records, but what if there were 100,000 or even 1,000,000 or X records?
+
 Our original code both calculated and wrote directly to our spreadsheet within one set of nested loops.  While this may *seem* efficient, it actually isn't.
 '''
-For i = 0 To 11
+ For i = 0 To 11
         Worksheets(yearValue).Activate
         ticker = tickers(i)
     
-        
+        ' iterate through the year spreadsheet
         For j = rowStart To rowEnd
         
             If (Cells(j, 1).Value = ticker) Then
                  totalVolume = totalVolume + Cells(j, 8).Value
             End If
         
-        'set starting price
+        'set starting price based on ticker value
         
             If (Cells(j, 1).Value = ticker And Cells(j - 1, 1).Value <> ticker) Then
                 startingPrice = Cells(j, 6).Value
             End If
         
-        'set ending price
+        'set ending price based on ticker value
             If Cells(j, 1).Value = ticker And Cells(j + 1, 1).Value <> ticker Then
                  endingPrice = Cells(j, 6).Value
            End If
         Next j
+        
+        'Calculations, write info in cells
+        Worksheets("All Stocks Analysis").Activate
+        Cells(i + 5, 1).Value = ticker
+        Cells(i + 5, 2).Value = totalVolume
+        returnVal = (endingPrice / startingPrice) - 1
+        Cells(i + 5, 3).Value = returnVal
+        
+        'Evaluate Return val to assign color
+        If (returnVal < 0) Then
+            Cells(i + 5, 3).Interior.Color = vbRed
+        ElseIf (returnVal > 0) Then
+            Cells(i + 5, 3).Interior.Color = vbGreen
+        Else
+            Cells(i + 5, 3).Interior.Color = xlNone
+        End If
+        
+        'Reset all variables for next ticker
+        totalVolume = 0
+        returnVal = 0
+        startingPrice = 0
+        endingPrice = 0
+    Next i
 '''
-To scale our code for larger datasets and reduce the runtime, we created an array to hold all of the information, this way we were not doing calculations in time for each index, but perindex using a nested for loop.  Due to the fact that we used mutliple arrays to hold all of our information, we could easily iterate through the array using a "tickerIndex", that would pull the correct information based on the assigned index for each tickers index.  Using this new method, we decreased our 2017 runtime by 8.4% and our 2018 runtime by 8.5%.  
+
+To scale our code for larger datasets and reduce the runtime, we created an array to hold all of the information, this way we were not doing calculations in time for each index, rather per index using a nested for loop.  Due to the fact that we used mutliple arrays to hold all of our information, we could easily iterate through the array using a "tickerIndex", that would pull the correct information based on the assigned index for each tickers index.  Additionally, rather than using this format to write directly to our spreadsheet, we stored all of then necessary information into separate arrays, and used a separate loop to write this that information to our spreadsheet.  Using this new method, we decreased our 2017 runtime by 8.4% and our 2018 runtime by 8.5%.  
+
+'''
+  'Create three output arrays
+    Dim tickerVolumes(12) As Long
+    Dim tickerStartingPrices(12) As Single
+    Dim tickerEndingPrices(12) As Single
+    
+    ' Create a for loop to initialize the tickerVolumes to zero.
+    For tickerIndex = 0 To 11
+        Worksheets(yearValue).Activate
+        tickerVolumes(tickerIndex) = 0
+        ticker = tickers(tickerIndex)
+
+    
+        
+    ' Loop over all the rows in the spreadsheet.
+        For i = 2 To RowCount
+            
+        'Increase volume for current ticker
+            If (Cells(i, 1).Value = ticker) Then
+                tickerVolumes(tickerIndex) = tickerVolumes(tickerIndex) + Cells(i, 8).Value
+            End If
+        'Check if the current row is the first row with the selected tickerIndex.
+        
+            
+             If (Cells(i, 1).Value = ticker And Cells(i - 1, 1).Value <> ticker) Then
+                tickerStartingPrices(tickerIndex) = Cells(i, 6).Value
+            End If
+            
+        
+        'check if the current row is the last row with the selected ticker
+         'If the next row’s ticker doesn’t match, increase the tickerIndex.
+            If Cells(i, 1).Value = ticker And Cells(i + 1, 1).Value <> ticker Then
+                 tickerEndingPrices(tickerIndex) = Cells(i, 6).Value
+           End If
+        Next i
+        
+        
+
+            Increase the tickerIndex.
+    Next tickerIndex
+        
+    
+    Loop through your arrays to output the Ticker, Total Daily Volume, and Return.
+    For i = 0 To 11
+        
+        Worksheets("All Stocks Analysis").Activate
+        Cells(i + 4, 1).Value = tickers(i)
+        Cells(i + 4, 2).Value = tickerVolumes(i)
+        Cells(i + 4, 3).Value = (tickerEndingPrices(i) / tickerStartingPrices(i)) - 1
+        
+    Next i
+'''
+
+##Summary
+
+1. The advantages of reFactoring code allows us to consider the scalablity of our analysis.  While we may start with a small data set, we may want to do the same or similar analysis on a larger or infinitely larger dataset, by refacoring our code we can improve our effciency and our ability to handle large/demanding data sets.  This also allows us to create code that is flexible and adaptable to the dataset we are using regardless of the size.
+
+2. By refactoring we were able to clearly improve our efficiency on this small dataset by 8.4% and 8.5% (2017/2018).  Since our dataset was only a few thousand rows (3013 for both), we did not have a larger dataset to test it on, we can only assume that our refactoring efficiency increase will hold on a larger dataset.  Extrapolating our effciency improvements, if we had a dataset that would normally take 30minutes to run using our old methodology, our new reFactored code would improve that time by ~2min 30 sec, and it would take 27min 30 seconds to run that same data.
+
