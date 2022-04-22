@@ -43,10 +43,11 @@ To reFactor our code, we needed to think about scalability.  Our code worked gre
 
 Our original code both calculated and wrote directly to our spreadsheet within one set of nested loops.  While this may *seem* efficient, it actually isn't.
 
- 'For i = 0 To 11
+    
+      'For i = 0 To 11
         Worksheets(yearValue).Activate
         ticker = tickers(i)
-    
+
         ' iterate through the year spreadsheet
         For j = rowStart To rowEnd
         
@@ -92,7 +93,9 @@ Our original code both calculated and wrote directly to our spreadsheet within o
 
 To scale our code for larger datasets and reduce the runtime, we created an array to hold all of the information, this way we were not doing calculations in time for each index, rather per index using a nested for loop.  Due to the fact that we used mutliple arrays to hold all of our information, we could easily iterate through the array using a "tickerIndex", that would pull the correct information based on the assigned index for each tickers index.  Additionally, rather than using this format to write directly to our spreadsheet, we stored all of then necessary information into separate arrays, and used a separate loop to write this that information to our spreadsheet.  Using this new method, we decreased our 2017 runtime by 8.4% and our 2018 runtime by 8.5%.  
 
-  'Create three output arrays
+  
+    
+    'Create three output arrays
     Dim tickerVolumes(12) As Long
     Dim tickerStartingPrices(12) As Single
     Dim tickerEndingPrices(12) As Single
